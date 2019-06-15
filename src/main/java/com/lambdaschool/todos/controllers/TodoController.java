@@ -39,7 +39,7 @@ public class TodoController
     }
 
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-    @PostMapping(value = "/user", consumes = {"application/json"}, produces = {"application/json"})
+    @PostMapping(value = "/users", consumes = {"application/json"}, produces = {"application/json"})
     public ResponseEntity<?> addNewUser(@Valid
                                         @RequestBody
                                                 User newuser) throws URISyntaxException
@@ -94,5 +94,13 @@ public class TodoController
     {
         toDoService.update(newTodo, todoid);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+    @GetMapping(value = "/users/list", produces = {"application/json"})
+    public ResponseEntity<?> listAllUsers()
+    {
+        List<User> myUsers = userService.findAll();
+        return new ResponseEntity<>(myUsers, HttpStatus.OK);
     }
 }
